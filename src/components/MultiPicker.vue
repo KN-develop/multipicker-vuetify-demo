@@ -45,20 +45,9 @@ export default {
     }
   },
   methods: {
-    async onSave() {
+    onSave() {
       if (!this.isDirty) return undefined;
-      this.isSubmitting = true;
-      const data = this.prepareData();
-      try {
-        const res = await this.$axios.post(apiUrl + 'save', data);
-
-        this.setInitialState(res.data);
-
-      } catch (e) {
-        this.error = 'Что то пошло не так, попробуйте еще раз'
-      }
-
-      this.isSubmitting = false;
+      this.saveData();
     },
     onClear() {
       if (!this.isDirty) return;
@@ -95,6 +84,21 @@ export default {
         this.error = 'Ничего не работает! Перезагрузитесь'
         this.isSubmitting = false;
       }
+    },
+
+    async saveData() {
+      this.isSubmitting = true;
+      const data = this.prepareData();
+      try {
+        const res = await this.$axios.post(apiUrl + 'save', data);
+
+        this.setInitialState(res.data);
+
+      } catch (e) {
+        this.error = 'Что то пошло не так, попробуйте еще раз'
+      }
+
+      this.isSubmitting = false;
     }
   },
 
